@@ -10,9 +10,7 @@ class BitcoinExchange {
 private:
     std::map<std::string, float> _data;
 
-    bool isvalidDate(const std::string& date) const;
-    bool isvalidValue(const std::string& value) const;
-
+    bool isvalidDate(const std::string& date) ;
 public:
     BitcoinExchange();
     BitcoinExchange(const BitcoinExchange& other);
