@@ -1,10 +1,10 @@
 CXX=c++
 
-SRC= main.cpp  BitcoinExchange.cpp
+SRC= main1.cpp  PmergeMe1.cpp
 
 OBJ=$(SRC:.cpp=.o)
 
-NAME = btc
+NAME = PmergeMe
 
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 
