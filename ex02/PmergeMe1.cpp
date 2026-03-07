@@ -52,7 +52,9 @@ void PmergeMe::fordJohnsonVector(std::vector<int> &c)
 		c.pop_back();
 		hasStraggler = true;
 	}
-	std::vector<int> mainChain, pending;
+//sort
+	std::vector<int> mainChain;
+	std::vector<int>pending;
 	for (size_t i = 0; i < c.size(); i += 2)
 	{
 		if (c[i] < c[i + 1])
@@ -61,12 +63,26 @@ void PmergeMe::fordJohnsonVector(std::vector<int> &c)
 		pending.push_back(c[i + 1]);
 	}
 	fordJohnsonVector(mainChain);
-	for (size_t i = 0; i < pending.size(); i++)
+//jacob
+	size_t jacob[] = {3, 5, 11, 21, 43, 85, 171, 341, 683, 1365, 2731, 5461, 10923};
+	size_t last_jacob = 1;
+	mainChain.insert(mainChain.begin(),pending[0]);
+	for (size_t j = 0; j < 13; j++)
 	{
-		std::vector<int>::iterator it = std::lower_bound(mainChain.begin(),
-				mainChain.end(), pending[i]);
-		mainChain.insert(it, pending[i]);
+		size_t current_jacob=jacob[j];
+		if(current_jacob>pending.size())
+			current_jacob=pending.size();
+//Binary Search
+		for (size_t i = 0; i < pending.size(); i++)
+		{
+			std::vector<int>::iterator it = std::lower_bound(mainChain.begin(),mainChain.end(), pending[i-1]);
+			mainChain.insert(it, pending[i-1]);
+		}
+		if(current_jacob==pending.size())
+			break;
+		last_jacob=current_jacob;
 	}
+	
 	if (hasStraggler)
 	{
 		std::vector<int>::iterator it = std::lower_bound(mainChain.begin(),
@@ -118,44 +134,44 @@ void PmergeMe::fordJohnsonDeque(std::deque<int> &c)
 }
 
 void PmergeMe::sortVector() {
-    clock_t start = clock();
-    fordJohnsonVector(_vec);
-    clock_t end = clock();
-    _vecTime = static_cast<double>(end - start) / CLOCKS_PER_SEC * 1000000.0;
+	clock_t start = clock();
+	fordJohnsonVector(_vec);
+	clock_t end = clock();
+	_vecTime = static_cast<double>(end - start) / CLOCKS_PER_SEC * 1000000.0;
 }
 
 void PmergeMe::sortDeque() {
-    clock_t start = clock();
-    fordJohnsonDeque(_deq);
-    clock_t end = clock();
-    _deqTime = static_cast<double>(end - start) / CLOCKS_PER_SEC * 1000000.0;
+	clock_t start = clock();
+	fordJohnsonDeque(_deq);
+	clock_t end = clock();
+	_deqTime = static_cast<double>(end - start) / CLOCKS_PER_SEC * 1000000.0;
 }
 
 
 void PmergeMe::printBefore() const {
-    std::cout << "Before: ";
-    for (size_t i = 0; i < _vec.size(); i++) {
-        std::cout << _vec[i] << (i == _vec.size() - 1 ? "" : " ");
-    }
-    std::cout << std::endl;
+	std::cout << "Before: ";
+	for (size_t i = 0; i < _vec.size(); i++) {
+		std::cout << _vec[i] << (i == _vec.size() - 1 ? "" : " ");
+	}
+	std::cout << std::endl;
 }
 
 void PmergeMe::printAfter() const {
-    std::cout << "After:  ";
-    for (size_t i = 0; i < _vec.size(); i++) {
-        std::cout << _vec[i] << (i == _vec.size() - 1 ? "" : " ");
-    }
-    std::cout << std::endl;
+	std::cout << "After:  ";
+	for (size_t i = 0; i < _vec.size(); i++) {
+		std::cout << _vec[i] << (i == _vec.size() - 1 ? "" : " ");
+	}
+	std::cout << std::endl;
 }
 
 double PmergeMe::getVecTime() const {
-    return _vecTime;
+	return _vecTime;
 }
 
 double PmergeMe::getDeqTime() const {
-    return _deqTime;
+	return _deqTime;
 }
 
 size_t PmergeMe::getSize() const {
-    return _vec.size();
+	return _vec.size();
 }
